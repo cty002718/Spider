@@ -9,7 +9,7 @@ soup = BeautifulSoup(res.text,"html.parser")
 l = soup.select('.image-item a')
 
 if not os.path.exists('郭雪芙'):
-	os.makedirs('郭雪芙')
+    os.makedirs('郭雪芙')
 
 for a in l:
     link = 'https://ibeauty01.com' + a['href']

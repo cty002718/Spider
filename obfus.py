@@ -46,7 +46,7 @@ data = {
 }
 
 if not os.path.exists("add_obfus_result"):
-	os.makedirs("add_obfus_result")
+    os.makedirs("add_obfus_result")
 
 url = "https://www.pelock.com/obfuscator/"
 s = requests.Session()
@@ -55,16 +55,16 @@ csrf = re.search('csrf-token" content="(.*?)">', get_csrf.text)
 data['_csrf'] = csrf.group(1)
 
 for item in os.listdir("add_obfus"):
-	if item == ".DS_Store": continue;
-	with open("add_obfus/" + item, "r") as f:
-		data['ObfuscatorForm[source]'] = f.read()
-	
-	html = s.post(url, data=data)
-	pattern = re.compile('<h2 class="h3">Obfuscated code</h2>.*?' + 
-		'<textarea class="form-control monospaced-font-xs".*?"false">' + 
-		'(.*?)</textarea>', re.S)
+    if item == ".DS_Store": continue;
+    with open("add_obfus/" + item, "r") as f:
+        data['ObfuscatorForm[source]'] = f.read()
+    
+    html = s.post(url, data=data)
+    pattern = re.compile('<h2 class="h3">Obfuscated code</h2>.*?' + 
+        '<textarea class="form-control monospaced-font-xs".*?"false">' + 
+        '(.*?)</textarea>', re.S)
 
-	output = re.search(pattern, html.text)
-	with open("add_obfus_result/" + item, "w") as f:
-		f.write(output.group(1))
+    output = re.search(pattern, html.text)
+    with open("add_obfus_result/" + item, "w") as f:
+        f.write(output.group(1))
 
